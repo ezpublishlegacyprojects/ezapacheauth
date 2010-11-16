@@ -9,12 +9,16 @@ protecting non-php resources such as webdav / subversion shares
 
 2. Allow eZPublish to delegate to Apache user authentication
 
+NB: Goal number 2 is not yet reached as of version 0.1
+
+
 Prerequisites:
 ==============
 
 PHP 5 / eZP 4.0+
 Apache webserver
-Mod-auth-external apache module (http://code.google.com/p/mod-auth-external/)
+Mod-auth-external Apache module (http://code.google.com/p/mod-auth-external/)
+
 
 Installation:
 =============
@@ -23,6 +27,45 @@ Installation:
 
 2. download mod-auth-external, compile it and install it
 
-3. configure Apache to delegate user authentication to eZ Publish
+3. configure Apache to delegate user authentication to eZ Publish for a vhost,
+   directory, single file or anything in between
 
-   ...
+   Example configuration in your vhost:
+   
+   <Location /myprotectedfolder>
+   AuthType Basic
+   AuthName "eZPublish accounts"   
+   Require valid-user
+   ### Auth passed on to ez via mod-auth-external
+   AuthBasicProvider external
+   ### the name used here is a label that must match the one below
+   AuthExternal ezpublish
+   </Location>
+   ### change the path to the .sh script according to your setup
+   DefineExternalAuth ezpublish pipe /var/www/ezpublish/extension/ezapacheauth/bin/shell/authenticate.sh
+
+   Please note that Basic authentication is only reciommended together with https!
+
+4. Restart Apache and test accessing the vhost/folder you protected.
+   Only eZ Publish user accounts should be valid.
+
+
+Troubleshooting
+===============
+
+. look in the apache error log for messages from mod-auth-external
+
+. test executing /var/www/ezpublish/extension/ezapacheauth/bin/shell/authenticate.sh
+  on the command line. It waits for username + [Enter] + password + [Enter], and
+  returns a value of 0 for ok, 1 for bad password or username.
+  (use the command "echo $?" to display the return value after executing the script)
+
+. make sure the user running the apache process ('www-data', 'apache' or 'httpd'
+  depending on your configuration) has enough rights to execute the script
+  /var/www/ezpublish/extension/ezapacheauth/bin/shell/authenticate.sh
+
+. read the manual of mod-auth-external
+
+. read the Apache manual about authentication and authorization
+
+. mod-auth-external only supports Basic auth, not Digest auth
