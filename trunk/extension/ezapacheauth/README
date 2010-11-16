@@ -1,0 +1,28 @@
+eZ Apache Auth extension for eZ publish
+=======================================
+
+Goals:
+======
+
+1. Allow to set up Apache to delegate user authentication to eZPublish for
+protecting non-php resources such as webdav / subversion shares
+
+2. Allow eZPublish to delegate to Apache user authentication
+
+Prerequisites:
+==============
+
+PHP 5 / eZP 4.0+
+Apache webserver
+Mod-auth-external apache module (http://code.google.com/p/mod-auth-external/)
+
+Installation:
+=============
+
+1. unzip and activate the extension, as always
+
+2. download mod-auth-external, compile it and install it
+
+3. configure Apache to delegate user authentication to eZ Publish
+
+   ...
