@@ -1,0 +1,5 @@
+. filter out anon users
+
+. test if passworsd with spaces at the end are ok
+
+. add script to check users groups
