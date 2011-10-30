@@ -44,7 +44,7 @@ Installation:
    ### change the path to the .sh script according to your setup
    DefineExternalAuth ezpublish pipe /var/www/ezpublish/extension/ezapacheauth/bin/shell/authenticate.sh
 
-   Please note that Basic authentication is only reciommended together with https!
+   Please note that Basic authentication is only recommended together with https!
 
 4. Restart Apache and test accessing the vhost/folder you protected.
    Only eZ Publish user accounts should be valid.
